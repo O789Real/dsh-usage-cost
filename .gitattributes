@@ -1,0 +1,6 @@
+# 仓库里统一按 LF 存；PowerShell 脚本在检出时给回 CRLF（Windows PowerShell 5.1 更稳）
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.png binary
+*.gif binary
+*.webp binary
