@@ -46,6 +46,8 @@ dsh plugin --profile desktop add dsh-usage-cost
 dsh plugin --profile desktop add link:/绝对路径/dsh-usage-cost
 ```
 
+> 维护者：发包到 npm 的完整步骤见文末[「发布到 npm」](#九发布到-npm维护者用)。
+
 ### 不装 CLI / 想手工控制：用脚本
 
 ```powershell
@@ -252,6 +254,38 @@ node tools/probe-session-turn.mjs <解压后的 session.jsonl> [目标总 token]
 
 > 只发 GitHub、不发 npm 也能被目录收录：仓库有 topic + 根 `package.json` 含 `name` 与 `dsh.bundle` 即可
 > （目录会把默认分支的某个 commit 固定为版本）。若要走 npm，`npm publish` 后**次日**的构建会收录。
+
+## 九、发布到 npm（维护者用）
+
+发到 npm 之后，别人才能一行装：`dsh plugin --profile <profile> add dsh-usage-cost`。
+
+```bash
+# 0) 只需要做一次：到 https://www.npmjs.com/signup 注册账号，并验证邮箱；
+#    强烈建议顺手开启 2FA（npm 对发布操作会要一次性验证码）
+#    账号名建议与 GitHub 保持一致，方便别人认作者
+
+# 1) 登录（在**你自己的终端**里跑，会走浏览器或要用户名/密码/验证码）
+npm login
+npm whoami                       # 打出用户名就说明登录成功了
+
+# 2) 发布（在插件目录里跑）
+cd <插件目录>
+npm publish                      # 若开了 2FA，会提示输入一次性验证码：npm publish --otp=123456
+
+# 3) 验证
+npm view dsh-usage-cost version  # 能打出 0.2.0 就成了
+```
+
+之后每次发新版：改完代码 → 改 `CHANGELOG.md` → `npm version patch`（自动改版本号并打 git tag）
+→ `git push --follow-tags` → `npm publish`。
+
+几个必须知道的规矩：
+
+- **同一个版本号只能发一次**，改任何东西都要升版本号（`npm version patch|minor|major`）。
+- **发布基本不可逆**：72 小时内可以 `npm unpublish`，但同名同版本永久作废、且这个名字会被冻结一段时间。所以第一次发布前先把 README 和 `files` 看一遍。
+- 包里只有 `files` 列出的那几个文件（`lib` / `assets` / `cordis.patch.yml` / `README.md` / `CHANGELOG.md` / `LICENSE`，约 23 kB）——探针、脚本、`.git` 都不会上传。
+- `npm test` 已经挂在 `prepublishOnly` 上：探针不过就发不出去。
+- pnpm 11 默认对新发布的包有冷却期，别人可能要显式写 `dsh-usage-cost@0.2.0` 才装得到最新版；几天后自动消失。
 
 ---
 

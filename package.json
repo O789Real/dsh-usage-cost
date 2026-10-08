@@ -23,7 +23,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node tools/probe-syntax.mjs && node tools/probe-pricing.mjs && node tools/probe-decorate.mjs"
+    "test": "node tools/probe-syntax.mjs && node tools/probe-pricing.mjs && node tools/probe-decorate.mjs",
+    "prepublishOnly": "npm test"
   },
   "dsh": {
     "bundle": {
