@@ -1,3 +1,5 @@
+<img width="1449" height="608" alt="图片" src="https://github.com/user-attachments/assets/71c2540c-132e-4c6e-81ef-a98596f79a11" />
+
 # dsh-usage-cost
 
 在 **DSH 自带「用量」弹窗**里，把每一行 token 折算成**金额**，显示在 token 数字的右边，并在末尾追加一行合计。
