@@ -206,6 +206,51 @@ node tools/probe-session-turn.mjs <解压后的 session.jsonl> [目标总 token]
   再决定是补锚点、补标签字典，还是修结构识别。
 - 改完先 `npm test`；改浏览器半只需刷新页面，改宿主半要重启 DSH。
 
+## 八、让插件被找到（发布相关）
+
+官方在 [`CONTRIBUTING.zh.md`](https://github.com/deepseek-ai/deepseek-harness/blob/master/CONTRIBUTING.zh.md) 里的说法是：
+
+> 创建令你感兴趣的插件，并分享给其他人：
+> **为你的 GitHub 项目添加 `dsh-plugin` 话题**，让其他人更容易找到你的插件。
+
+社区插件目录（如 [dsh-plugin-shop](https://github.com/LivXue/dsh-plugin-shop)、[dsh-m](https://www.npmjs.com/package/dsh-m)）
+的抓取规则是**每日构建**时扫描：
+
+| 来源 | 条件 |
+|---|---|
+| npm 包 | `keywords` 里含 **`dsh-plugin`** 或 **`deepseek-harness`** |
+| GitHub 仓库 | 仓库 **topic** 含这两个词之一，且根目录 `package.json` 有 `name` 与 `dsh.bundle` |
+
+两种来源都不需要向任何项目提交申请。本仓库因此同时具备：
+
+- `package.json` 的 `keywords`：`dsh` / `dsh-plugin` / `deepseek-harness` / …
+- GitHub 仓库 topics：`dsh-plugin`、`deepseek-harness`、`dsh`、`deepseek`、`cost`、`pricing`
+
+另外可选的 `dsh.catalog`（**DSH 自己不读，是目录用的**，已验证加了不影响加载）用来控制货架上的展示：
+
+```json
+"dsh": {
+  "bundle": { "patch": "./cordis.patch.yml" },
+  "catalog": {
+    "category": "ui",
+    "summary": { "en": "…", "zh": "…" },
+    "capabilities": ["webServer", "fs"]
+  },
+  "compatibility": { "dsh": ">=0.2.0-0 <0.3.0-0", "profiles": ["web"] }
+}
+```
+
+- `category` 取值：`tool` / `provider` / `ui` / `workflow` / `integration` / `theme` / `other`；不写就由目录自动归类。
+- `summary.en` 与 `summary.zh` 必须**同时**给（各 ≤200 字）。
+- `capabilities` 是**自述、不被强制**：DSH 不隔离插件，这个字段只是告诉别人插件碰了什么。
+  本插件只用到 `webServer`（注册静态路由）与 `fs`（读自己的资源、往 `DSH_HOME` 写自己的日志），
+  **不读会话、不碰凭据、不参与模型请求**。
+- `compatibility.dsh` 写的是**经过验证**的范围（开发与验证于 DSH `0.2.0-rc.2`）；
+  写 `>=0.2.0-0` 才能把 `0.2.0-rc.N` 这类预发布算进来，`<0.3.0-0` 才能挡住下一行的预发布。
+
+> 只发 GitHub、不发 npm 也能被目录收录：仓库有 topic + 根 `package.json` 含 `name` 与 `dsh.bundle` 即可
+> （目录会把默认分支的某个 commit 固定为版本）。若要走 npm，`npm publish` 后**次日**的构建会收录。
+
 ---
 
 MIT.

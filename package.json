@@ -28,6 +28,23 @@
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
+    },
+    "catalog": {
+      "category": "ui",
+      "summary": {
+        "en": "Shows the CNY cost of each token bucket next to the token counts in DSH's built-in usage dialogs, priced by the turn's own peak/off-peak time.",
+        "zh": "在 DSH 自带「用量」弹窗里，把每个 token 环节折算成金额标在 token 数字右边，并按这一轮自己的峰谷时段定价。"
+      },
+      "capabilities": [
+        "webServer",
+        "fs"
+      ]
+    },
+    "compatibility": {
+      "dsh": ">=0.2.0-0 <0.3.0-0",
+      "profiles": [
+        "web"
+      ]
     }
   },
   "engines": {
