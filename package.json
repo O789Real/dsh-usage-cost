@@ -1,0 +1,49 @@
+{
+  "name": "dsh-usage-cost",
+  "version": "0.2.0",
+  "description": "在 DSH 自带「用量」弹窗里，把每个 token 环节折算成金额显示在 token 数字右边（DeepSeek 官方价目表 + 峰谷价，口径与小鲸鱼挂件 dsh-whale-widget 同源）",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek",
+    "usage",
+    "cost",
+    "pricing",
+    "tokens"
+  ],
+  "type": "module",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "assets",
+    "cordis.patch.yml",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node tools/probe-syntax.mjs && node tools/probe-pricing.mjs && node tools/probe-decorate.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "author": "O789Real",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/O789Real/dsh-usage-cost.git"
+  },
+  "homepage": "https://github.com/O789Real/dsh-usage-cost#readme",
+  "bugs": {
+    "url": "https://github.com/O789Real/dsh-usage-cost/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

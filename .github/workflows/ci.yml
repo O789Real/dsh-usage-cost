@@ -1,0 +1,21 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  probes:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['20', '22']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      # 本插件没有任何依赖（宿主半只用 node: 内置模块），所以不需要 install 步骤。
+      # 三个探针离线跑：经典脚本契约 / 价目表与峰谷 / 假 DOM 里的标注行为。
+      - run: npm test

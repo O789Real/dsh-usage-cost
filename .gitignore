@@ -1,0 +1,21 @@
+# 依赖与构建产物（本插件没有构建步骤，装的东西都在 node_modules 里）
+node_modules/
+pnpm-lock.yaml
+
+# 运行时/排障产物（插件会把日志写到 DSH 数据目录，万一落到仓库里也别提交）
+*.log
+usage-cost-report.jsonl
+usage-cost-host.log
+usage-cost-pricing.json
+
+# 本地备份 / 临时文件 / 打包产物
+*.bak
+*.bak-*
+*.tgz
+tmp_*
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

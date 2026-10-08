@@ -1,0 +1,11 @@
+# ============================================================================
+# dsh-usage-cost —— DSH bundle patch（挂载声明）
+# ============================================================================
+# DSH 启动时按 bundle 层栈叠加各插件 patch，本文件把插件插进 profile 的配置树。
+# 功能全部在浏览器半（assets/usage-cost.js），由宿主半 lib/index.js 通过
+# webserver/index-inject 注入的 <script src="/dsh-usage-cost/client.js"> 加载。
+# ============================================================================
+
+- insert:
+    - id: dsh-usage-cost
+      name: dsh-usage-cost
